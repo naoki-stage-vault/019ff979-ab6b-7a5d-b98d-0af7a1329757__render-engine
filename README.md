@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Voxel World
 
-## Getting Started
+Juego voxel tipo Minecraft que corre íntegramente en el navegador (Three.js +
+JavaScript vanilla), servido desde la raíz del proyecto Next.js.
 
-First, run the development server:
+## Cómo se sirve
+
+- El juego es un documento HTML autocontenido: `public/voxel-game.html`.
+- `next.config.ts` usa un *rewrite* para que la raíz (`/`) muestre directamente
+  ese archivo, sin cambiar la URL.
+
+## Ponerlo en marcha
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre la URL del entorno (o `http://localhost:3000` en local) y verás el juego.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Controles
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **WASD** — moverse · **Ratón** — mirar · **Espacio** — saltar
+- **Click izquierdo** — romper · **Click derecho** — colocar
+- **Teclas 1-7 / rueda** — elegir bloque
+- **F** — modo vuelo · **Shift/Ctrl** — bajar (volando)
+- Corazones de vida: daño por caída y por ahogamiento; al morir reapareces
+  en el punto de inicio.
 
-## Learn More
+## Detalles técnicos
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Mundo procedural con ruido Simplex (semilla fija): colinas, valles, playas,
+  cuevas, lagos y árboles.
+- Chunks de 16×16×16 con generación infinita por streaming.
+- Face culling + geometría indexada fusionada por chunk (1–2 meshes por chunk).
+- Física AABB con gravedad, salto, agua y modo vuelo.
+- Raycast voxel DDA para romper/colocar bloques.
+- Texturas procedurales en atlas (sin assets externos); solo Three.js se carga
+  desde CDN.
